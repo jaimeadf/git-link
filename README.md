@@ -1,5 +1,5 @@
 # GitLink
-A simple and easy-to-use tool to download or create download links to single files or directories of GitHub repositories.
+A simple and easy-to-use tool to download or create download links to single files or directories of GitHub repositories. You can try it on [git-link.vercel.app](https://git-link.vercel.app).
 
 ## How to use it:
 
