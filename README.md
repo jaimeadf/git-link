@@ -26,7 +26,7 @@ GET /api/download?url=https://github.com/jaimeadf/git-link&zip=true&filename=git
 ### Setup
 ```bash
 # 1. Clone the repository and navigate to its directory:
-git clone https://github.com/jaimeadf/git-link && cd BetterDiscordPlugins
+git clone https://github.com/jaimeadf/git-link && cd git-link
 
 # 2. Install the dependencies:
 yarn install
