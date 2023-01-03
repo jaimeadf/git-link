@@ -1,27 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import path from 'path';
-import url from 'url';
 import JSZip from 'jszip';
-import { match } from 'path-to-regexp';
 import { RequestError } from '@octokit/request-error';
 import { StatusCodes } from 'http-status-codes';
 
+import { parseGitHubResourceUrl } from '../../lib/parseGitHubResourceUrl';
+import { generateGitHubResourceFilename } from '../../lib/generateGitHubResourceFilename';
+import { DownloadedFile, GitHubDownload } from '../../lib/GitHubDownload';
 import { withErrorCatching } from '../../lib/middlewares/withErrorCatching';
 import { checkQueryParameter } from '../../lib/validation/checkQueryParameter';
-import { DownloadedFile, GitHubDownload } from '../../lib/GitHubDownload';
-import { ValidationError } from '../../lib/errors/ValidationError';
 import { NotFoundError } from '../../lib/errors/NotFoundError';
-
-const parseRoutePath = match<GitHubRepositoryParameters>('/:owner/:repository/:type(tree|blob)?/:ref?/:path(.*)?');
-
-type GitHubRepositoryParameters = {
-    owner: string;
-    repository: string;
-    type?: string;
-    ref?: string;
-    path?: string;
-};
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     checkQueryParameter(req, 'url');
@@ -30,8 +19,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const filename = req.query.filename?.toString();
     const shouldZip = !!req.query.zip;
 
-    const parameters = parseGitHubRepositoryUrl(githubUrl);
-    const fallbackFilename = githubUrl.substring(githubUrl.lastIndexOf('/') + 1);
+    const parameters = parseGitHubResourceUrl(githubUrl);
+    const fallbackFilename = generateGitHubResourceFilename(parameters);
 
     const download = new GitHubDownload(
         parameters.owner,
@@ -66,30 +55,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 (parameters.ref ? ` with ref = ${parameters.ref}` : '')
             );
         }
+
+        throw error;
     }
 }
 
 export default withErrorCatching(handler);
-
-function parseGitHubRepositoryUrl(githubUrl: string) {
-    const parts = url.parse(githubUrl!.toString());
-
-    if (parts.hostname !== 'github.com') {
-        throw new ValidationError("URL hostname must be 'github.com'");
-    }
-
-    if (!parts.pathname) {
-        throw new ValidationError('URL route path cannot be empty');
-    }
-
-    const route = parseRoutePath(parts.pathname);
-
-    if (!route || !route.params.type && route.params.ref) {
-        throw new ValidationError("URL must satisfy the format '/{owner}/{repository}/{blob|tree}/{ref}/{path}'");
-    }
-
-    return route.params;
-}
 
 function createDirectoryZipStream(files: DownloadedFile[], fromPath?: string) {
     const zip = new JSZip();

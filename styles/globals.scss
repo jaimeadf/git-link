@@ -1,0 +1,42 @@
+:root {
+    --background-primary: #141414;
+    --background-secondary: #202020;
+    --background-tertiary: #292929;
+
+    --text-primary: #FFFFFF;
+    --text-secondary: #BBBBBB;
+    --text-placeholder: #646464;
+    --text-error: #db3434;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html {
+    background-color: var(--background-primary);
+
+    color: var(--text-primary);
+    font-size: 16px;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+input, textarea, button {
+    background: none;
+    font-size: inherit;
+    color: inherit;
+}

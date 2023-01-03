@@ -1,6 +1,4 @@
-import { BadRequestError } from './BadRequestError';
-
-export class ValidationError extends BadRequestError {
+export class ValidationError extends Error {
     constructor(message: string) {
         super(`ValidationError: ${message}`);
     }
