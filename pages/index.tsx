@@ -159,6 +159,13 @@ export default function Home() {
                     </div>
                 </div>
             </main>
+            <footer className={styles.footer}>
+                <p>
+                    <a href="https://github.com/jaimeadf/git-link" target="_blank" rel="noreferrer">git-link</a>
+                    <> by </>
+                    <a href="https://github.com/jaimeadf" target="_blank" rel="noreferrer">jaimeadf</a>
+                </p>
+            </footer>
         </>
     )
 }

@@ -126,3 +126,15 @@
         background: var(--background-tertiary);
     }
 }
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: fixed;
+    bottom: 1rem;
+
+    width: 100%;
+    margin: 0 auto;
+}

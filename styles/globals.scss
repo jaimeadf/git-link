@@ -7,6 +7,7 @@
     --text-secondary: #BBBBBB;
     --text-placeholder: #646464;
     --text-error: #db3434;
+    --text-link: #4998ff;
 }
 
 * {
@@ -18,7 +19,7 @@
 }
 
 a {
-  color: inherit;
+  color: var(--text-link);
   text-decoration: none;
 }
 
